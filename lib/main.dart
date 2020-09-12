@@ -30,32 +30,29 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-  List<Widget> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    Icon(
-        Icons.close,
-        color: Colors.red
-    ),
-    Icon(
-        Icons.close,
-        color: Colors.red
-    ),
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    Icon(
-        Icons.close,
-        color: Colors.red
-    ),
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
+  // List for scores
+  List<Widget> scoreKeeper = [];
+
+  // List for questions
+  List<String> questions = [
+    'You can lead a cow down stairs but not up stairs.',
+    'Approximately one quarter of human bones are in the feet.',
+    'A slug\'s blood is green.',
   ];
+
+  List<bool> answers = [
+    false,
+    true,
+    true
+  ];
+
+  int questionNumber = 0;
+
+  int incrementQuestionNumber() {
+    setState(() {
+      questionNumber++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +66,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[questionNumber],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -94,12 +91,27 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 // The user picked true
-                setState(() {
+
+                bool correctAnswer = answers[questionNumber];
+
+                if (correctAnswer == true) {
                   scoreKeeper.add(
                     Icon(
-                      Icons.check, color: Colors.amber,
-                    ),
+                      Icons.check,
+                      color: Colors.green,
+                    )
                   );
+                } else {
+                  scoreKeeper.add(
+                      Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      )
+                  );
+                }
+
+                setState(() {
+                  questionNumber++; // questionNumber = questionNumber + 1
                 });
               },
             ),
@@ -119,6 +131,26 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 // The user picked false
+                bool correctAnswer = answers[questionNumber];
+
+                if (correctAnswer == false) {
+                  scoreKeeper.add(
+                      Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      )
+                  );
+                } else {
+                  scoreKeeper.add(
+                      Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      )
+                  );
+                }
+                setState(() {
+                  questionNumber++;
+                });
               },
             ),
           ),
